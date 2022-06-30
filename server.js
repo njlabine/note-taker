@@ -17,20 +17,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/notes.html"), (e) => {
+  res.sendFile(path.join(__dirname, "./public/notes.html"), (e) => {
     if (e) {
       console.log("An error has occurred " + e);
     }
   });
 });
 
-app.get("/api/getNotes", (req, res) => {
-  res.sendFile(path.join(__dirname, "db/db.json"), (e) => {
-    if (e) {
-      console.log(`An error occurre${e}`);
-    }
-  });
-});
+app.get("/api/notes", (req, res) => {
+  fs.readFile("./db/db.json", "utf8", (e, data) => {
+    res.json(JSON.parse(data))
+    console.log(data)
+  })
+})
 
 app.post("/api/notes", (req, res) => {
   const title = req.body.title;
